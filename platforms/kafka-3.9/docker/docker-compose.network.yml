@@ -1,0 +1,17 @@
+services:
+
+  kafka:
+    ports:
+      - ${COMPOSE_HOST}:${COMPOSE_PORT_PTEXT}:9092   # External access from your host machine:docker-port
+      # - ${COMPOSE_HOST}:${COMPOSE_PORT_PCTRL}:9093 # optional: expose controller if you really need it
+    networks:
+      net: {}
+
+networks:
+  net:
+    driver: bridge
+    external: true
+    name: ${COMPOSE_LEAD}-${COMPOSE_CNET}
+  default:
+    external: true
+    name: ${COMPOSE_LEAD}-${COMPOSE_CNET}

@@ -1,0 +1,33 @@
+services:
+
+  kafka:
+    image: apache/kafka:3.9.2   # Official Apache Kafka image
+    container_name: ${COMPOSE_LEAD}-${COMPOSE_NAME}
+    environment:
+      # KRaft single-node
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      # Bind inside container to all interfaces
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      # Advertise to clients on the Docker host (use host IP or localhost if clients run on the host)
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:${COMPOSE_PORT_PTEXT}
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_LOG_RETENTION_HOURS: 168        # Add your custom env vars below
+      # KAFKA_MESSAGE_MAX_BYTES: 1048576    # Example: max message size
+      # where Kafka stores data in the container
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+    #volumes:
+    #  - ${COMPOSE_DATA}:/var/lib/kafka/data        # Persist data between restarts
+    #  - ${COMPOSE_LOGS}:/var/log/kafka
+    restart: unless-stopped
+
+volumes:
+  kafka_data:

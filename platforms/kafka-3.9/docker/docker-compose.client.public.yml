@@ -1,0 +1,12 @@
+services:
+
+  kafka-ui:
+    ports:
+      - "${COMPOSE_CLIENT_PORT}:8080"
+    networks:
+      net: {}
+
+networks:
+  net:
+    driver: bridge
+    name: ${COMPOSE_LEAD}-${COMPOSE_CNET}

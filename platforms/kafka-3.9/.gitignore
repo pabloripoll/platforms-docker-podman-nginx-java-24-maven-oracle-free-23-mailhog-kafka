@@ -1,0 +1,6 @@
+# .gitignore custom settings
+/docker/.env
+/data/*
+!/data/.gitkeep
+/logs/*
+!/logs/.gitkeep

@@ -1,0 +1,16 @@
+services:
+
+  kafka-ui:
+    ports:
+      - ${COMPOSE_HOST}:${COMPOSE_CLIENT_PORT}:8080
+    networks:
+      net: {}
+
+networks:
+  net:
+    driver: bridge
+    external: true
+    name: ${COMPOSE_LEAD}-${COMPOSE_CNET}
+  default:
+    external: true
+    name: ${COMPOSE_LEAD}-${COMPOSE_CNET}

@@ -1,0 +1,14 @@
+services:
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: ${COMPOSE_LEAD}-${COMPOSE_NAME}-client
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092   # Points to kafka service
+      AUTH_TYPE: LOGIN_FORM                           # Enables the login screen
+      SPRING_SECURITY_USER_NAME: ${COMPOSE_CLIENT_USERNAME}
+      SPRING_SECURITY_USER_PASSWORD: ${COMPOSE_CLIENT_PASSWORD}
+    #depends_on:
+    #  - kafka
+    restart: unless-stopped
