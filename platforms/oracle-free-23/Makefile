@@ -21,7 +21,7 @@ endif
 
 include ../../.env
 
-DOCKER_PLTF="POSTGRES 18.2"
+DOCKER_PLTF="ORACLE FREE 23"
 DOCKER_LEAD=$(PROJECT_LEAD)
 DOCKER_CNET=$(PROJECT_CNET)
 DOCKER_HOST=$(PROJECT_HOST)
@@ -29,10 +29,11 @@ DOCKER_IMGK=$(DATABASE_IMGK)
 DOCKER_CAAS=$(DATABASE_CAAS)
 DOCKER_PORT=$(DATABASE_PORT)
 DOCKER_BIND=$(DATABASE_BIND)
-DOCKER_CPUS=$(DATABASE_CAAS_CPUS)
-DOCKER_MEM=$(DATABASE_CAAS_MEM)
-DOCKER_SWAP=$(DATABASE_CAAS_SWAP)
-
+DOCKER_CPUS=$(DATABASE_CPUS)
+DOCKER_MEMO=$(DATABASE_MEMO)
+DOCKER_SWAP=$(DATABASE_SWAP)
+DOCKER_DATA=$(DATABASE_DATA)
+DOCKER_LOGS=$(DATABASE_LOGS)
 SQL_NAME=$(DATABASE_NAME)
 SQL_PASS=$(DATABASE_PASS)
 
@@ -84,22 +85,24 @@ env-set: ## sets docker .env file
 ifeq ($(DETECTED_OS), Windows)
 	echo "Recipe do not support for Windows NT at this moment - You have to manually create .env file from ./docker/.env.example";
 else
-	echo "COMPOSE_PROJECT_LEAD=\"$(DOCKER_LEAD)\"\r\n\
-	COMPOSE_PROJECT_CNET=\"$(DOCKER_CNET)\"\r\n\
-	COMPOSE_PROJECT_IMGK=\"$(DOCKER_IMGK)\"\r\n\
-	COMPOSE_PROJECT_NAME=\"$(DOCKER_CAAS)\"\r\n\
-	COMPOSE_PROJECT_HOST=$(DOCKER_HOST)\r\n\
-	COMPOSE_PROJECT_PORT=$(DOCKER_PORT)\r\n\
-	COMPOSE_PROJECT_CPUS=$(DOCKER_CPUS)\r\n\
-	COMPOSE_PROJECT_MEM=$(DOCKER_MEM)\r\n\
-	COMPOSE_PROJECT_SWAP=$(DOCKER_SWAP)\r\n\
-	ORACLE_PLUGGABLE_DB_NAME=$(SQL_NAME)\r\n\
-	ORACLE_DATABASE_PASSWORD=\"$(SQL_PASS)\""> ./docker/.env;
+	@echo "COMPOSE_LEAD=$(DOCKER_LEAD)" > ./docker/.env
+	@echo "COMPOSE_CNET=$(DOCKER_CNET)" >> ./docker/.env
+	@echo "COMPOSE_IMGK=$(DOCKER_IMGK)" >> ./docker/.env
+	@echo "COMPOSE_NAME=$(DOCKER_CAAS)" >> ./docker/.env
+	@echo "COMPOSE_HOST=$(DOCKER_HOST)" >> ./docker/.env
+	@echo "COMPOSE_PORT=$(DOCKER_PORT)" >> ./docker/.env
+	@echo "COMPOSE_CPUS=$(DOCKER_CPUS)" >> ./docker/.env
+	@echo "COMPOSE_MEMO=$(DOCKER_MEMO)" >> ./docker/.env
+	@echo "COMPOSE_SWAP=$(DOCKER_SWAP)" >> ./docker/.env
+	@echo "COMPOSE_DATA=\"$(DOCKER_DATA)\"" >> ./docker/.env
+	@echo "COMPOSE_LOGS=\"$(DOCKER_LOGS)\"" >> ./docker/.env
+	@echo "ORACLE_PLUGGABLE_DB_NAME=$(SQL_NAME)" >> ./docker/.env
+	@echo "ORACLE_DATABASE_PASSWORD=\"$(SQL_PASS)\"" >> ./docker/.env
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" DATABASE "${C_YEL}$(DOCKER_PLTF)${C_END}" - "${C_YEL}"docker-compose.yml"${C_END}" .env file "${C_GRN}"has been set."${C_END};
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" DATABASE "${C_YEL}$(DOCKER_PLTF)${C_END}" - Container name: "${C_GRN}$(DOCKER_CONTAINER)${C_END}
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" DATABASE "${C_YEL}$(DOCKER_PLTF)${C_END}" - Container image: "${C_GRN}$(DOCKER_CONTAINER):$(DOCKER_IMGK)${C_END}
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" DATABASE "${C_YEL}$(DOCKER_PLTF)${C_END}" - Max. CPUs: "${C_GRN}$(DOCKER_CPUS)${C_END}
-	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" DATABASE "${C_YEL}$(DOCKER_PLTF)${C_END}" - Max. memory: "${C_GRN}$(DOCKER_MEM)${C_END}" - Swap: "${C_GRN}$(DOCKER_SWAP)${C_END}
+	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" DATABASE "${C_YEL}$(DOCKER_PLTF)${C_END}" - Max. memory: "${C_GRN}$(DOCKER_MEMO)${C_END}" - Swap: "${C_GRN}$(DOCKER_SWAP)${C_END}
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" DATABASE "${C_YEL}$(DOCKER_PLTF)${C_END}" - Localhost: http://127.0.0.1:"${C_GRN}"$(DOCKER_PORT)"${C_END};
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" DATABASE "${C_YEL}$(DOCKER_PLTF)${C_END}" - Hostname: http://$(word 1,$(shell hostname -I)):"${C_GRN}"$(DOCKER_PORT)"${C_END};
 endif
@@ -115,7 +118,7 @@ info: ## shows container information
 	echo ${C_YEL}"Name.........: "${C_END}$(DOCKER_CONTAINER);
 	echo ${C_YEL}"Image........: "${C_END}"$(DOCKER_CONTAINER):$(DOCKER_IMGK)";
 	echo ${C_YEL}"CPUs.........: "${C_END}"$(DOCKER_CPUS)";
-	echo ${C_YEL}"RAM..........: "${C_END}"$(DOCKER_MEM)";
+	echo ${C_YEL}"RAM..........: "${C_END}"$(DOCKER_MEMO)";
 	echo ${C_YEL}"SWAP.........: "${C_END}"$(DOCKER_SWAP)";
 	echo ${C_YEL}"Host.........: "${C_END}"$(DOCKER_HOST):$(DOCKER_PORT)";
 	echo ${C_YEL}"Hostname.....: "${C_END}"$(word 1,$(shell hostname -I)):"$(DOCKER_PORT);
@@ -145,12 +148,12 @@ restart: ## restarts the running container
 
 clear: ## removes container from Docker running containers
 	cd docker && $(DOCKER_COMPOSE) kill || true
-	cd docker && $(DOCKER_COMPOSE) rm --force || true
-	cd docker && $(DOCKER_COMPOSE) down -v --remove-orphans || true
+	cd docker && $(DOCKER_COMPOSE) down --volumes --remove-orphans || true
 
 destroy: ## delete container image from Docker cache
 	cd docker && $(DOCKER) rmi -f $(DOCKER_CONTAINER):$(DOCKER_IMGK)
-	cd docker && $(SUDO) rm -rf data root
+	$(SUDO) rm -rf $(DOCKER_DATA)
+	$(SUDO) rm -rf $(DOCKER_LOGS)
 
 dev: ## sets a development enviroment
 	echo ${C_YEL}"\"dev\" recipe has not usage in this project"${C_END};

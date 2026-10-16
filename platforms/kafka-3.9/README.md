@@ -12,8 +12,8 @@
 
 ## <a id="features"></a>Features
 
-![Alpine Linux](https://img.shields.io/badge/Alpine_Linux-%230D597F.svg?style=for-the-badge&logo=alpine-linux&logoColor=white)
-![Apache Kafka](https://img.shields.io/badge/Apache_Kafka-231F20?style=for-the-badge&logo=apache-kafka&logoColor=white)
+![Alpine Linux](https://shields.io/badge/Alpine_Linux-%230D597F.svg?style=for-the-badge&logo=alpine-linux&logoColor=white)
+![Apache Kafka](https://shields.io/badge/Apache_Kafka-231F20?style=for-the-badge&logo=apache-kafka&logoColor=white)
 
 Content:
 - Linux Alpine 3.23
@@ -95,7 +95,34 @@ If no GNU Make is in used, create a copy from the example `./docker/.env.example
 
 Required environment variables from `./docker/.env.example` for Docker Compose:
 ```bash
+COMPOSE_LEAD=myproj                                 # <- lead abbreviation or acronym as part of related containers naming rule -------------------------> #
+COMPOSE_CNET=mp-dev                                 # <- real main image keys to manage automations for sharing resources -------------------------------> #
+COMPOSE_IMGK=apache/kafka:3.9.2                     # <- container name to build the service - important to set the environment in this variable --------> #
+COMPOSE_HOST=127.0.0.1                              # <- machine hostname referrer - not necessary for this project -------------------------------------> #
+COMPOSE_PORT_PTEXT=9092                             # <- local machine port opened for container service - plaintext client traffic ---------------------> #
+COMPOSE_PORT_PCTRL=9093                             # <- local machine port opened for container service - ssl/tls or control-plane traffic -------------> #
+COMPOSE_DATA="./data"                               # <- broker platform data storage path in local disk ------------------------------------------------> #
+COMPOSE_LOGS="./logs"                               # <- broker platform logs storage path in local disk ------------------------------------------------> #
+COMPOSE_NAME=mp-kafka-dev                           # <- container name to build the service - important to set the environment in this variable --------> #
+COMPOSE_CPUS=2.00                                   # <- container's maximum CPUs usage to apply by docker-compose - leave it empty for full usage ------> #
+COMPOSE_MEMO=256M                                   # <- container's maximum RAM usage to apply by docker-compose ---------------------------------------> #
+COMPOSE_SWAP=512M                                   # <- container's RAM swap space in storage executed by automation command ---------------------------> #
+COMPOSE_CLIENT_IMGK=provectuslabs/kafka-ui:latest   # <- container property for the database client for pulling and caching image into docker -----------> #
+COMPOSE_CLIENT_CPUS=1.00                            # <- client's container maximum CPUs usage to apply by docker-compose - empty for full usage --------> #
+COMPOSE_CLIENT_MEMO=128M                            # <- client's container maximum RAM usage to apply by docker-compose --------------------------------> #
+COMPOSE_CLIENT_SWAP=256M                            # <- client's container RAM swap space in storage executed by automation command --------------------> #
+COMPOSE_CLIENT_PORT=7712                            # <- local machine port opened for client's container service client --------------------------------> #
+COMPOSE_CLIENT_USERNAME=admin.user                  # <- database client first user account -------------------------------------------------------------> #
+COMPOSE_CLIENT_PASSWORD="admin-pass"                # <- database client first user password ------------------------------------------------------------> #
+COMPOSE_IGNORE_ORPHANS=true                         # <- ignore docker warnings messages when client is in used -----------------------------------------> #
+```
+
+* **Ignore Orphans**:<br>
+This Mongo DB platform has been developed for optionally using it with a database client like Mongo Express. By avoiding the usage of `--remove-orphans` flag while building the container, it prevents to remove Mongo DB container but terminal will show a warning message. To prevent that known message, the `.env` file has a constant value set to true `COMPOSE_IGNORE_ORPHANS=true` by default if using `./Makefile` for automation
+
+### Containers Access Modes
 COMPOSE_LEAD="myproj"                               # <- lead abbreviation or acronym as part of related containers naming rule -------------------------> #
+COMPOSE_CNET="mp-dev"                               # <- real main image keys to COMPOSE_LEAD="myproj"                               # <- lead abbreviation or acronym as part of related containers naming rule -------------------------> #
 COMPOSE_CNET="mp-dev"                               # <- real main image keys to manage automations for sharing resources -------------------------------> #
 COMPOSE_IMGK="apache/kafka:3.9.2"                   # <- container name to build the service - important to set the environment in this variable --------> #
 COMPOSE_HOST=127.0.0.1                              # <- machine hostname referrer - not necessary for this project -------------------------------------> #
@@ -113,14 +140,24 @@ COMPOSE_CLIENT_SWAP=256M                            # <- client's container RAM 
 COMPOSE_CLIENT_PORT=7712                            # <- local machine port opened for client's container service client --------------------------------> #
 COMPOSE_CLIENT_USERNAME=admin.user                  # <- database client first user account -------------------------------------------------------------> #
 COMPOSE_CLIENT_PASSWORD="admin-pass"                # <- database client first user password ------------------------------------------------------------> #
+COMPOSE_IGNORE_ORPHANS=true                         # <- ignore docker warnings messages when client is in used -----------------------------------------> #manage automations for sharing resources -------------------------------> #
+COMPOSE_IMGK="apache/kafka:3.9.2"                   # <- container name to build the service - important to set the environment in this variable --------> #
+COMPOSE_HOST=127.0.0.1                              # <- machine hostname referrer - not necessary for this project -------------------------------------> #
+COMPOSE_PORT_PTEXT=9092                             # <- local machine port opened for container service - plaintext client traffic ---------------------> #
+COMPOSE_PORT_PCTRL=9093                             # <- local machine port opened for container service - ssl/tls or control-plane traffic -------------> #
+COMPOSE_PATH="../data"                              # <- platform broker data storage in local ----------------------------------------------------------> #
+COMPOSE_NAME="mp-kafka-dev"                         # <- container name to build the service - important to set the environment in this variable --------> #
+COMPOSE_CPUS=2.00                                   # <- container's maximum CPUs usage to apply by docker-compose - leave it empty for full usage ------> #
+COMPOSE_MEM=256M                                    # <- container's maximum RAM usage to apply by docker-compose ---------------------------------------> #
+COMPOSE_SWAP=512M                                   # <- container's RAM swap space in storage executed by automation command ---------------------------> #
+COMPOSE_CLIENT_IMGK="provectuslabs/kafka-ui:latest" # <- container property for the database client for pulling and caching image into docker -----------> #
+COMPOSE_CLIENT_CPUS=1.00                            # <- client's container maximum CPUs usage to apply by docker-compose - empty for full usage --------> #
+COMPOSE_CLIENT_MEMO=128M                            # <- client's container maximum RAM usage to apply by docker-compose --------------------------------> #
+COMPOSE_CLIENT_SWAP=256M                            # <- client's container RAM swap space in storage executed by automation command --------------------> #
+COMPOSE_CLIENT_PORT=7712                            # <- local machine port opened for client's container service client --------------------------------> #
+COMPOSE_CLIENT_USERNAME=admin.user                  # <- database client first user account -------------------------------------------------------------> #
+COMPOSE_CLIENT_PASSWORD="admin-pass"                # <- database client first user password ------------------------------------------------------------> #
 COMPOSE_IGNORE_ORPHANS=true                         # <- ignore docker warnings messages when client is in used -----------------------------------------> #
-```
-
-* **Ignore Orphans**:<br>
-This Mongo DB platform has been developed for optionally using it with a database client like Mongo Express. By avoiding the usage of `--remove-orphans` flag while building the container, it prevents to remove Mongo DB container but terminal will show a warning message. To prevent that known message, the `.env` file has a constant value set to true `COMPOSE_IGNORE_ORPHANS=true` by default if using `./Makefile` for automation
-
-### Containers Access Modes
-
 - Set the required environment values in `./docker/.env` from `./docker/.env.example` if no GNU Make will be applied.
 - Set the required configuration files by coping and updating them depending on your project requirements.
 - Container availability by building the container with `docker-composer.yml` in separated configuration layers

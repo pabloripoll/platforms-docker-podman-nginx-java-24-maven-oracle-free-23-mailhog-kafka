@@ -3,4 +3,4 @@ services:
 
   oracle-db:
     ports:
-      - ${COMPOSE_PROJECT_PORT}:1521
+      - ${COMPOSE_PORT}:1521

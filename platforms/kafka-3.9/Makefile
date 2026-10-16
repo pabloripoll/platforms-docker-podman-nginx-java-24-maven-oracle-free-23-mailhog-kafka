@@ -93,26 +93,26 @@ env-set: ## sets docker .env file
 ifeq ($(DETECTED_OS), Windows)
 	echo "Recipe do not support for Windows NT at this moment - You have to manually create .env file from ./docker/.env.example";
 else
-	echo "COMPOSE_LEAD=\"$(DOCKER_LEAD)\"\r\n\
-	COMPOSE_CNET=\"$(DOCKER_CNET)\"\r\n\
-	COMPOSE_IMGK=\"$(DOCKER_IMGK)\"\r\n\
-	COMPOSE_HOST=$(DOCKER_HOST)\r\n\
-	COMPOSE_PORT_PTEXT=$(DOCKER_PORT_PTEXT)\r\n\
-	COMPOSE_PORT_PCTRL=$(DOCKER_PORT_CNTRL)\r\n\
-	COMPOSE_DATA=\"$(DOCKER_DATA)\"\r\n\
-	COMPOSE_LOGS=\"$(DOCKER_LOGS)\"\r\n\
-	COMPOSE_NAME=\"$(DOCKER_CAAS)\"\r\n\
-	COMPOSE_CPUS=$(DOCKER_CPUS)\r\n\
-	COMPOSE_MEM=$(DOCKER_MEM)\r\n\
-	COMPOSE_SWAP=$(DOCKER_SWAP)\r\n\
-	COMPOSE_CLIENT_IMGK=\"$(DOCKER_CLIENT_IMGK)\"\r\n\
-	COMPOSE_CLIENT_CPUS=$(DOCKER_CLIENT_CPUS)\r\n\
-	COMPOSE_CLIENT_MEMO=$(DOCKER_CLIENT_MEMO)\r\n\
-	COMPOSE_CLIENT_SWAP=$(DOCKER_CLIENT_SWAP)\r\n\
-	COMPOSE_CLIENT_PORT=$(DOCKER_CLIENT_PORT)\r\n\
-	COMPOSE_CLIENT_USERNAME=$(BROKER_CLIENT_USERNAME)\r\n\
-	COMPOSE_CLIENT_PASSWORD=\"$(BROKER_CLIENT_PASSWORD)\"\r\n\
-	COMPOSE_IGNORE_ORPHANS="true"" > ./docker/.env; \
+	@echo "COMPOSE_LEAD=$(DOCKER_LEAD)" > ./docker/.env
+	@echo "COMPOSE_CNET=$(DOCKER_CNET)" >> ./docker/.env
+	@echo "COMPOSE_IMGK=$(DOCKER_IMGK)" >> ./docker/.env
+	@echo "COMPOSE_HOST=$(DOCKER_HOST)" >> ./docker/.env
+	@echo "COMPOSE_PORT_PTEXT=$(DOCKER_PORT_PTEXT)" >> ./docker/.env
+	@echo "COMPOSE_PORT_PCTRL=$(DOCKER_PORT_CNTRL)" >> ./docker/.env
+	@echo "COMPOSE_DATA=\"$(DOCKER_DATA)\"" >> ./docker/.env
+	@echo "COMPOSE_LOGS=\"$(DOCKER_LOGS)\"" >> ./docker/.env
+	@echo "COMPOSE_NAME=$(DOCKER_CAAS)" >> ./docker/.env
+	@echo "COMPOSE_CPUS=$(DOCKER_CPUS)" >> ./docker/.env
+	@echo "COMPOSE_MEMO=$(DOCKER_MEMO)" >> ./docker/.env
+	@echo "COMPOSE_SWAP=$(DOCKER_SWAP)" >> ./docker/.env
+	@echo "COMPOSE_CLIENT_IMGK=$(DOCKER_CLIENT_IMGK)" >> ./docker/.env
+	@echo "COMPOSE_CLIENT_CPUS=$(DOCKER_CLIENT_CPUS)" >> ./docker/.env
+	@echo "COMPOSE_CLIENT_MEMO=$(DOCKER_CLIENT_MEMO)" >> ./docker/.env
+	@echo "COMPOSE_CLIENT_SWAP=$(DOCKER_CLIENT_SWAP)" >> ./docker/.env
+	@echo "COMPOSE_CLIENT_PORT=$(DOCKER_CLIENT_PORT)" >> ./docker/.env
+	@echo "COMPOSE_CLIENT_USERNAME=$(BROKER_CLIENT_USERNAME)" >> ./docker/.env
+	@echo "COMPOSE_CLIENT_PASSWORD=\"$(BROKER_CLIENT_PASSWORD)\"" >> ./docker/.env
+	@echo "COMPOSE_IGNORE_ORPHANS=true" >> ./docker/.env
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MESSAGE BROKER "${C_YEL}$(DOCKER_PLTF)${C_END}" - "${C_YEL}"docker-compose.yml"${C_END}" .env file "${C_GRN}"has been set."${C_END};
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MESSAGE BROKER "${C_YEL}$(DOCKER_PLTF)${C_END}" - Container name: "${C_GRN}$(DOCKER_CONTAINER)${C_END}
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MESSAGE BROKER "${C_YEL}$(DOCKER_PLTF)${C_END}" - Container image: "${C_GRN}$(DOCKER_IMGK)${C_END}
@@ -169,8 +169,7 @@ restart: ## restarts the running container
 
 clear: ## removes container from Docker running containers
 	cd docker && $(DOCKER_COMPOSE) -f docker-compose.yml -f docker-compose.network.yml kill || true
-	cd docker && $(DOCKER_COMPOSE) -f docker-compose.yml -f docker-compose.network.yml rm --force || true
-	cd docker && $(DOCKER_COMPOSE) -f docker-compose.yml -f docker-compose.network.yml down -v --remove-orphans || true
+	cd docker && $(DOCKER_COMPOSE) -f docker-compose.yml -f docker-compose.network.yml down --volumes --remove-orphans || true
 
 destroy: ## delete container image from Docker cache
 	cd docker && $(DOCKER) rmi -f $(DOCKER_IMGK)
@@ -221,8 +220,7 @@ restart-client: ## restarts the running client container
 
 clear-client: ## removes client container from Docker running containers
 	cd docker && $(DOCKER_COMPOSE) -f docker-compose.client.yml -f docker-compose.client.public.yml kill || true
-	cd docker && $(DOCKER_COMPOSE) -f docker-compose.client.yml -f docker-compose.client.public.yml rm --force || true
-	cd docker && $(DOCKER_COMPOSE) -f docker-compose.client.yml -f docker-compose.client.public.yml down -v --remove-orphans || true
+	cd docker && $(DOCKER_COMPOSE) -f docker-compose.client.yml -f docker-compose.client.public.yml down --volumes --remove-orphans || true
 
 destroy-client: ## delete client container image from Docker images cache
 	cd docker && $(DOCKER) rmi -f $(DOCKER_CLIENT_IMGK)

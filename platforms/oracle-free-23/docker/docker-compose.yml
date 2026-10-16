@@ -2,12 +2,12 @@ services:
 
   oracle-db:
     image: gvenzl/oracle-free:23-slim-faststart
-    container_name: ${COMPOSE_PROJECT_LEAD}-${COMPOSE_PROJECT_NAME}
+    container_name: ${COMPOSE_LEAD}-${COMPOSE_NAME}
     deploy:
       resources:
         limits:
-          cpus: ${COMPOSE_PROJECT_CPUS}
-          memory: ${COMPOSE_PROJECT_MEM}
+          cpus: ${COMPOSE_CPUS}
+          memory: ${COMPOSE_MEMO}
     environment:
       - ORACLE_PDB=${ORACLE_PLUGGABLE_DB_NAME:-FREEPDB1}
       - ORACLE_PASSWORD=${ORACLE_DATABASE_PASSWORD}

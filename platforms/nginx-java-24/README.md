@@ -12,12 +12,12 @@
 
 ## <a id="features"></a>Features
 
-![Alpine Linux](https://img.shields.io/badge/Alpine_Linux-%230D597F.svg?style=for-the-badge&logo=alpine-linux&logoColor=white)
-![Debian](https://img.shields.io/badge/debian-red?style=for-the-badge&logo=debian&logoColor=orange&color=darkred)
+![Alpine Linux](https://shields.io/badge/Alpine_Linux-%230D597F.svg?style=for-the-badge&logo=alpine-linux&logoColor=white)
+![Debian](https://shields.io/badge/debian-red?style=for-the-badge&logo=debian&logoColor=orange&color=darkred)
 ![Oracle](https://custom-icon-badges.demolab.com/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=fff)
-![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white)
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![Maven](https://img.shields.io/badge/MAVEN-000000?style=for-the-badge&logo=apachemaven&logoColor=blue)
+![Nginx](https://shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white)
+![Java](https://shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Maven](https://shields.io/badge/MAVEN-000000?style=for-the-badge&logo=apachemaven&logoColor=blue)
 
 Content:
 - Linux Alpine 3.24
@@ -29,8 +29,8 @@ Content:
 
 It can be installed the most known **JAVA** frameworks:
 
-![Spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/springboot-000000?style=for-the-badge&logo=springboot&logoColor=green)
+![Spring](https://shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![Spring Boot](https://shields.io/badge/springboot-000000?style=for-the-badge&logo=springboot&logoColor=green)
 
 - [Spring](https://spring.io/)
 - [Spring Boot 3](https://spring.io/blog/2022/05/24/preparing-for-spring-boot-3-0)
@@ -52,18 +52,18 @@ The service container can be easily manage by the `./docker/docker-compose.yml`.
 
 Require environment variables at `./docker/.env` *(all are customizable)*:
 ```bash
-COMPOSE_PROJECT_LEAD="myproj"                           # <- lead abbreviation or acronym as part of related containers naming rule -------------------------> #
-COMPOSE_PROJECT_CNET="mp-dev"                           # <- useful for networking to connect between containers --------------------------------------------> #
-COMPOSE_PROJECT_IMGK="alpine-3.24-nginx-java-24"        # <- real main image keys to manage automations for sharing resources -------------------------------> #
-COMPOSE_PROJECT_NAME="mp-apirest-dev"                   # <- container name to build the service - it is important to set the environment in this variable --> #
-COMPOSE_PROJECT_HOST="127.0.0.1"                        # <- machine hostname referrer - not necessary for this project -------------------------------------> #
-COMPOSE_PROJECT_PORT=7501                               # <- local machine port opened for container service ------------------------------------------------> #
-COMPOSE_PROJECT_PATH="../../../api-rest"                # <- path where application is binded from container to local ---------------------------------------> #
-COMPOSE_PROJECT_CPUS="2.00"                             # <- container's maximum CPUs usage to apply by docker-compose - leave it empty for full usage ------> #
-COMPOSE_PROJECT_MEM="128M"                              # <- container's maximum CPUs usage to apply by docker-compose - leave it empty for full usage ------> #
-COMPOSE_PROJECT_SWAP="256M"                             # <- container's maximum RAM usage to apply by docker-compose ---------------------------------------> #
-COMPOSE_PROJECT_USER="osuser"                           # <- container's project directory user -------------------------------------------------------------> #
-COMPOSE_PROJECT_GROUP="osgroup"                         # <- container's project directory group ------------------------------------------------------------> #
+COMPOSE_LEAD=myproj                             # <- lead abbreviation or acronym as part of related containers naming rule -------------------------> #
+COMPOSE_CNET=mp-dev                             # <- useful for networking to connect between containers --------------------------------------------> #
+COMPOSE_IMGK=alpine-3.24-nginx-java-24          # <- real main image keys to manage automations for sharing resources -------------------------------> #
+COMPOSE_NAME=mp-apirest-dev                     # <- container name to build the service - it is important to set the environment in this variable --> #
+COMPOSE_HOST=127.0.0.1                          # <- machine hostname referrer - not necessary for this project -------------------------------------> #
+COMPOSE_PORT=7501                               # <- local machine port opened for container service ------------------------------------------------> #
+COMPOSE_PATH="../../../api-rest"                # <- path where application is binded from container to local ---------------------------------------> #
+COMPOSE_CPUS=2.00                               # <- container's maximum CPUs usage to apply by docker-compose - leave it empty for full usage ------> #
+COMPOSE_MEMO=128M                               # <- container's maximum CPUs usage to apply by docker-compose - leave it empty for full usage ------> #
+COMPOSE_SWAP=256M                               # <- container's maximum RAM usage to apply by docker-compose ---------------------------------------> #
+COMPOSE_USER=osuser                             # <- container's project directory user -------------------------------------------------------------> #
+COMPOSE_GROUP=osgroup                           # <- container's project directory group ------------------------------------------------------------> #
 ```
 
 <font color="orange"><b>IMPORTANT:</b></font>

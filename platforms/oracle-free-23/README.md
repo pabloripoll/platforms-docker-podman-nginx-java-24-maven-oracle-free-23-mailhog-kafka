@@ -11,7 +11,7 @@
 ## <a id="features"></a>Features
 
 ![Oracle](https://custom-icon-badges.demolab.com/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=fff)
-![SQL](https://img.shields.io/badge/SQL-003B57?style=for-the-badge&labelColor=black&logo=sqlite&logoColor=white)
+![SQL](https://shields.io/badge/SQL-003B57?style=for-the-badge&labelColor=black&logo=sqlite&logoColor=white)
 
 Content:
 - Oracle Linux Server 8.10
@@ -34,17 +34,19 @@ The service container can be easily manage by the `./docker/docker-compose.yml`.
 
 Require environment variables at `./docker/.env` *(all are customizable)*:
 ```bash
-COMPOSE_PROJECT_LEAD="myproj"                                   # <- lead abbreviation or acronym as part of related containers naming rule ------> #
-COMPOSE_PROJECT_CNET="mp-dev"                                   # <- useful for networking to connect between containers -------------------------> #
-COMPOSE_PROJECT_IMGK="gvenzl/oracle-free:23-slim-faststart"     # <- real main image keys to manage automations for sharing resources ------------> #
-COMPOSE_PROJECT_NAME="mp-oracle-dev"                            # <- container name - it is important to set the environment in this variable ----> #
-COMPOSE_PROJECT_HOST=127.0.0.1                                  # <- machine hostname referrer - not necessary for this project ------------------> #
-COMPOSE_PROJECT_PORT=7710                                       # <- local machine port opened for container service -----------------------------> #
-COMPOSE_PROJECT_CPUS=2.00                                       # <- container's maximum CPUs usage - leave it empty for full usage --------------> #
-COMPOSE_PROJECT_MEM=512M                                        # <- container's maximum RAM usage to apply by docker-compose --------------------> #
-COMPOSE_PROJECT_SWAP=1G                                         # <- container's RAM swap space in storage executed by automation command --------> #
-ORACLE_PLUGGABLE_DB_NAME=dev_local                              # <- database pluggable name -----------------------------------------------------> #
-ORACLE_DATABASE_PASSWORD="dev-password"                         # <- database password -----------------------------------------------------------> #
+COMPOSE_LEAD=myproj                                 # <- lead abbreviation or acronym as part of related containers naming rule -------------------------> #
+COMPOSE_CNET=mp-dev                                 # <- useful for networking to connect between containers --------------------------------------------> #
+COMPOSE_IMGK=gvenzl/oracle-free:23-slim-faststart   # <- real main image keys to manage automations for sharing resources -------------------------------> #
+COMPOSE_NAME=mp-oracle-dev                          # <- container name to build the service - it is important to set the environment in this variable --> #
+COMPOSE_HOST=127.0.0.1                              # <- machine hostname referrer - not necessary for this project -------------------------------------> #
+COMPOSE_PORT=7710                                   # <- local machine port opened for container service ------------------------------------------------> #
+COMPOSE_CPUS=2.00                                   # <- container's maximum CPUs usage to apply by docker-compose - leave it empty for full usage ------> #
+COMPOSE_MEMO=512M                                   # <- container's maximum RAM usage to apply by docker-compose ---------------------------------------> #
+COMPOSE_SWAP=1G                                     # <- container's RAM swap space in storage executed by automation command ---------------------------> #
+COMPOSE_DATA="./data"                               # <- platform data storage in local -----------------------------------------------------------------> #
+COMPOSE_LOGS="./logs"                               # <- platform logs storage in local -----------------------------------------------------------------> #
+ORACLE_PLUGGABLE_DB_NAME=dev_local                  # <- database pluggable name ------------------------------------------------------------------------> #
+ORACLE_DATABASE_PASSWORD="dev-password"             # <- database password ------------------------------------------------------------------------------> #
 ```
 <br>
 
@@ -83,7 +85,7 @@ $ make help
 Usage: $ make [target]
 Targets:
 $ make help                           shows this Makefile help message
-$ make port-check                     shows this project port availability on local machine
+$ make port-check                     shows this project port avail\r\n\ability on local machine
 $ make env                            checks if docker .env file exists
 $ make env-set                        sets docker .env file
 $ make info                           shows container information
@@ -122,7 +124,7 @@ $ make db-ssh
 ```
 <br><br>
 
-
+\r\n\
 ## Contributing
 
 Contributions are very welcome! Please open issues or submit PRs for improvements, new features, or bug fixes.
